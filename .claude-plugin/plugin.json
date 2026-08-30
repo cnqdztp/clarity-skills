@@ -1,0 +1,13 @@
+{
+  "name": "clarity",
+  "version": "1.0.0",
+  "description": "Clarity Skills: expandable documents with nutshell and decision-review pages with design-review.",
+  "author": {
+    "name": "cnzang",
+    "email": "cnzangtianpei@gmail.com",
+    "url": "https://github.com/cnqdztp"
+  },
+  "license": "MIT",
+  "keywords": ["documents", "writing", "nutshell", "design-review", "skills"],
+  "skills": "./skills/"
+}

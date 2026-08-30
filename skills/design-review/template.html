@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rare reward proposal</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #FBFBF9; --card: #FFFFFF; --ink: #22262C; --muted: #5A6470; --line: #DFE3E1;
+    --accent: #0E7C6F; --accent-soft: #E7F1EF; --nut-bg: #EFF5F3; --nut-line: #C9DAD6;
+    --ok: #2E7D4F; --warn: #9A6B15; --bad: #A8443A;
+    --ok-bg: #E8F3EC; --warn-bg: #F7EFDD; --bad-bg: #F7E7E4;
+    --code-bg: #F3F4F2; --flow-bg: #F6F7F5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --bg: #14171A; --card: #1B1F23; --ink: #E6E9EA; --muted: #99A3AC; --line: #2D3337;
+      --accent: #43BFAD; --accent-soft: #1C2B29; --nut-bg: #1D2926; --nut-line: #2E4440;
+      --ok: #57C289; --warn: #DDB25A; --bad: #DF8177;
+      --ok-bg: #1B2B21; --warn-bg: #2C2517; --bad-bg: #2E1D1A;
+      --code-bg: #21262B; --flow-bg: #1E2327;
+    }
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #FBFBF9; --card: #FFFFFF; --ink: #22262C; --muted: #5A6470; --line: #DFE3E1;
+    --accent: #0E7C6F; --accent-soft: #E7F1EF; --nut-bg: #EFF5F3; --nut-line: #C9DAD6;
+    --ok: #2E7D4F; --warn: #9A6B15; --bad: #A8443A;
+    --ok-bg: #E8F3EC; --warn-bg: #F7EFDD; --bad-bg: #F7E7E4;
+    --code-bg: #F3F4F2; --flow-bg: #F6F7F5;
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #14171A; --card: #1B1F23; --ink: #E6E9EA; --muted: #99A3AC; --line: #2D3337;
+    --accent: #43BFAD; --accent-soft: #1C2B29; --nut-bg: #1D2926; --nut-line: #2E4440;
+    --ok: #57C289; --warn: #DDB25A; --bad: #DF8177;
+    --ok-bg: #1B2B21; --warn-bg: #2C2517; --bad-bg: #2E1D1A;
+    --code-bg: #21262B; --flow-bg: #1E2327;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font-family: -apple-system, "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+    font-size: 16px; line-height: 1.85; }
+  h1, h2, h3 { font-family: "Songti SC", "Noto Serif CJK SC", "SimSun", serif; text-wrap: balance; line-height: 1.4; }
+  .wrap { max-width: 50rem; margin: 0 auto; padding: 0 1.25rem 6rem; }
+  .topbar { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+  .topbar-inner { max-width: 50rem; margin: 0 auto; padding: 0.6rem 1.25rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .topbar .doc-tag { font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted); }
+  .copy-btn { font: inherit; font-size: 0.85rem; background: var(--accent); color: #fff; border: none; border-radius: 6px; padding: 0.35rem 0.9rem; cursor: pointer; }
+  .copy-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .copy-btn.copied { background: var(--ok); }
+  header.doc-head { padding-top: 3rem; }
+  header.doc-head h1 { font-size: 1.75rem; margin: 0.2rem 0 0.8rem; }
+  .doc-date { color: var(--muted); font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+  nav.toc { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.4rem; margin: 1.6rem 0; font-size: 0.92rem; }
+  nav.toc ol { margin: 0.3rem 0 0; padding-left: 1.4em; columns: 2; column-gap: 2rem; }
+  nav.toc li { margin: 0.15rem 0; break-inside: avoid; }
+  nav.toc a { color: var(--accent); text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+  @media (max-width: 600px) { nav.toc ol { columns: 1; } }
+  section.block { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1.6rem 1.8rem 1.4rem; margin: 2.2rem 0; scroll-margin-top: 4rem; }
+  section.block h2 { font-size: 1.32rem; margin: 0 0 0.6rem; }
+  section.block h3 { font-size: 1.06rem; margin: 1.6rem 0 0.4rem; }
+  section.block p { margin: 0.45rem 0; }
+  section.block ul, section.block ol { margin: 0.45rem 0; padding-left: 1.4em; }
+  section.block li { margin: 0.3rem 0; }
+  .secnum { color: var(--muted); font-weight: 400; margin-right: 0.55em; font-variant-numeric: tabular-nums; }
+  .chip { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; border-radius: 999px; padding: 0.05rem 0.6rem; vertical-align: 0.15em; margin-left: 0.4rem; font-family: -apple-system, "PingFang SC", sans-serif; }
+  .chip.decided { background: var(--ok-bg); color: var(--ok); }
+  .chip.proposed { background: var(--accent-soft); color: var(--accent); }
+  .chip.open { background: var(--warn-bg); color: var(--warn); }
+  table { border-collapse: collapse; margin: 0.8rem 0; width: 100%; font-size: 0.92rem; }
+  th, td { border: 1px solid var(--line); padding: 0.4rem 0.65rem; text-align: left; vertical-align: top; }
+  th { background: var(--accent-soft); font-weight: 600; }
+  td.num, th.num { font-variant-numeric: tabular-nums; }
+  .table-scroll { overflow-x: auto; }
+  pre.flow, pre.ir { background: var(--flow-bg); border: 1px solid var(--line); border-radius: 8px; padding: 0.9rem 1.1rem; overflow-x: auto; font-size: 0.86rem; line-height: 1.7; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+  pre.ir { background: var(--code-bg); }
+  .nut { font: inherit; color: var(--accent); background: none; border: none; padding: 0; cursor: pointer; border-bottom: 1.5px dotted var(--accent); }
+  .nut:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .nut.open { border-bottom-style: solid; }
+  .nut-body { display: block; background: var(--nut-bg); border-left: 3px solid var(--nut-line); border-radius: 0 6px 6px 0; padding: 0.55rem 0.9rem; margin: 0.5rem 0; font-size: 0.92rem; }
+  .nut-body .nut-body { margin-left: 0.9rem; background: color-mix(in srgb, var(--nut-bg) 60%, var(--card)); }
+  .nut-dead { color: var(--muted); border-bottom: 1.5px dotted var(--muted); }
+  dl#glossary-list { margin: 0.8rem 0 0; }
+  dl#glossary-list dt { font-weight: 600; margin-top: 0.9rem; color: var(--accent); }
+  dl#glossary-list dd { margin: 0.15rem 0 0; font-size: 0.95rem; }
+  section.block .cost { border-top: 1px dashed var(--line); margin-top: 1.4rem; padding-top: 0.7rem; font-size: 0.92rem; }
+  section.block .cost strong { color: var(--warn); }
+  .note-box { margin-top: 1rem; border-top: 1px dashed var(--line); padding-top: 1rem; }
+  .note-box .note-title { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.5rem; }
+  .verdicts { display: flex; gap: 0.5rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
+  .v-btn { font: inherit; font-size: 0.85rem; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--muted); padding: 0.25rem 0.95rem; cursor: pointer; }
+  .v-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .v-btn[data-v="accept"].on { background: var(--ok-bg); color: var(--ok); border-color: var(--ok); }
+  .v-btn[data-v="revise"].on { background: var(--warn-bg); color: var(--warn); border-color: var(--warn); }
+  .v-btn[data-v="reject"].on { background: var(--bad-bg); color: var(--bad); border-color: var(--bad); }
+  .note-box textarea { width: 100%; min-height: 3rem; font: inherit; font-size: 0.92rem; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 0.5rem 0.7rem; resize: vertical; }
+  .note-box textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  footer.doc-foot { color: var(--muted); font-size: 0.88rem; margin-top: 3rem; }
+  @media (prefers-reduced-motion: no-preference) {
+    .nut-body { animation: nutin 0.15s ease-out; }
+    @keyframes nutin { from { opacity: 0; } to { opacity: 1; } }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="doc-tag">Reward design</span>
+    <button class="copy-btn" id="copyJson">Copy annotations JSON</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- Fictional review example. Replace the content and dictionary for the actual proposal. -->
+<header class="doc-head">
+  <div class="doc-date">2026-01-01  Review draft v1</div>
+  <h1>Rare reward proposal</h1>
+  <p>A long run without a rare reward can leave a player with little sense of progress. This proposal introduces a <button class="nut" data-term="Pity system" aria-expanded="false">pity system</button> while retaining a chance-based reward.</p>
+</header>
+
+<nav class="toc">
+  Contents
+  <ol>
+    <li><a href="#sec-a">Increase the chance after repeated misses</a></li>
+    <li><a href="#sec-open">Open questions</a></li>
+    <li><a href="#sec-decisions">Decision index</a></li>
+    <li><a href="#sec-glossary">Glossary</a></li>
+  </ol>
+</nav>
+
+<section class="block" id="sec-a">
+  <h2><span class="secnum">1</span>Increase the chance after repeated misses<span class="chip proposed">Proposed</span></h2>
+  <p><strong>Current situation:</strong> Every eligible encounter uses the same 10% <button class="nut" data-term="Drop rate" aria-expanded="false">drop rate</button>, regardless of the player's previous results.</p>
+  <p><strong>Problem:</strong> Repeated misses provide no progress toward the next rare reward.</p>
+  <p><strong>Proposed change:</strong> After five consecutive misses, increase the chance by five percentage points after each further miss, up to 100%. <s>Reset the counter after every encounter.</s> <strong>Revised January 2: reset only when a rare reward is received.</strong></p>
+  <p><strong>Player impact:</strong> A long sequence without a rare reward becomes less likely, while early rewards remain uncertain.</p>
+  <p class="cost"><strong>Cost:</strong> Store the counter, retest the reward distribution, and assess the effect on progression speed.</p>
+  <div class="note-box">
+    <div class="note-title">Annotation</div>
+    <div class="verdicts" data-id="sec-a"><button class="v-btn" data-v="accept">Accept</button><button class="v-btn" data-v="revise">Revise</button><button class="v-btn" data-v="reject">Reject</button></div>
+    <textarea aria-label="Annotation" placeholder="Add a note..."></textarea>
+  </div>
+</section>
+
+<section class="block" id="sec-open">
+  <h2><span class="secnum">2</span>Open questions<span class="chip open">Open</span></h2>
+  <h3>Should the counter carry across sessions?</h3>
+  <p>Keeping the counter would preserve progress when a player leaves. Resetting it would make the result depend on the length of a session.</p>
+  <div class="note-box">
+    <div class="note-title">Annotation</div>
+    <div class="verdicts" data-id="open-a"><button class="v-btn" data-v="accept">Accept</button><button class="v-btn" data-v="revise">Revise</button><button class="v-btn" data-v="reject">Reject</button></div>
+    <textarea aria-label="Annotation" placeholder="Add a note..."></textarea>
+  </div>
+  <h3>Should the current chance be visible?</h3>
+  <p>Showing the chance would explain the player's progress, but would also require an additional element in the reward interface.</p>
+  <div class="note-box">
+    <div class="note-title">Annotation</div>
+    <div class="verdicts" data-id="open-b"><button class="v-btn" data-v="accept">Accept</button><button class="v-btn" data-v="revise">Revise</button><button class="v-btn" data-v="reject">Reject</button></div>
+    <textarea aria-label="Annotation" placeholder="Add a note..."></textarea>
+  </div>
+</section>
+
+<section class="block" id="sec-decisions">
+  <h2><span class="secnum">3</span>Decision index<span class="chip decided">Decided</span></h2>
+  <div class="table-scroll">
+    <table>
+      <tr><th>Decision</th><th>Location</th><th>Source</th></tr>
+      <tr><td>Keep the base chance at 10%.</td><td>Section 1</td><td>Example reward brief, January 1.</td></tr>
+      <tr><td>Reset only after a rare reward.</td><td>Section 1</td><td>Verbal decision, January 2; written confirmation pending.</td></tr>
+    </table>
+  </div>
+</section>
+
+<footer class="doc-foot">
+  <p>Source: example reward-design brief, January 1, 2026.</p>
+</footer>
+
+<section class="block" id="sec-glossary">
+  <h2><span class="secnum">4</span>Glossary</h2>
+  <dl id="glossary-list"></dl>
+</section>
+
+</div>
+
+<script>
+(function () {
+  // Central definitions. [[term]] references a concept; [[term|label]] changes its label.
+  var NUTS = {
+    "Pity system": "After repeated attempts without a rare reward, the probability increases until a successful attempt resets it. The starting probability comes from the base [[Drop rate|drop rate]].",
+    "Drop rate": "The probability of receiving a reward in one attempt. A [[Pity system|pity system]] can change that probability according to earlier results."
+};
+  function nutExpandHtml(def) {
+    return def.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, function (m, t, d) {
+      d = d || t;
+      if (!NUTS[t]) { console.warn('[nut] Unregistered term:', t); return d; }
+      return '<button class="nut" data-term="' + t + '" aria-expanded="false">' + d + '</button>';
+    });
+  }
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.nut');
+    if (!btn) return;
+    if (btn.classList.contains('open')) {
+      var body = btn.nextElementSibling;
+      if (body && body.classList.contains('nut-body')) body.remove();
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      return;
+    }
+    var term = btn.getAttribute('data-term');
+    var def = NUTS[term];
+    if (!def) return;
+    var seen = {};
+    seen[term] = true;
+    var p = btn.parentElement;
+    while (p) {
+      if (p.classList && p.classList.contains('nut-body') && p.getAttribute('data-term')) {
+        seen[p.getAttribute('data-term')] = true;
+      }
+      p = p.parentElement;
+    }
+    var span = document.createElement('span');
+    span.className = 'nut-body';
+    span.setAttribute('data-term', term);
+    span.innerHTML = nutExpandHtml(def);
+    span.querySelectorAll('.nut').forEach(function (b) {
+      if (seen[b.getAttribute('data-term')]) {
+        var s = document.createElement('span');
+        s.className = 'nut-dead';
+        s.textContent = b.textContent;
+        b.replaceWith(s);
+      }
+    });
+    btn.after(span);
+    btn.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+  });
+  // Generate the glossary from the central dictionary.
+  (function buildGlossary() {
+    var dl = document.getElementById('glossary-list');
+    if (!dl) return;
+    Object.keys(NUTS).forEach(function (term) {
+      var dt = document.createElement('dt');
+      dt.textContent = term;
+      var dd = document.createElement('dd');
+      dd.innerHTML = nutExpandHtml(NUTS[term]);
+      dl.appendChild(dt);
+      dl.appendChild(dd);
+    });
+  })();
+  // Save each annotation by its stable verdict-group identifier.
+  var STORE_KEY = location.pathname + '#notes';
+  function loadStore() { try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { return {}; } }
+  function saveStore(s) { try { localStorage.setItem(STORE_KEY, JSON.stringify(s)); } catch (e) {} }
+  var store = loadStore();
+  function noteBoxes() { return Array.prototype.slice.call(document.querySelectorAll('.note-box')); }
+  function boxId(box) {
+    var g = box.querySelector('.verdicts');
+    if (g && g.getAttribute('data-id')) return g.getAttribute('data-id');
+    var sec = box.closest('section');
+    return sec && sec.id ? sec.id : '';
+  }
+  function headingText(h) {
+    var clone = h.cloneNode(true);
+    clone.querySelectorAll('.chip, .secnum').forEach(function (c) { c.remove(); });
+    return clone.textContent.trim();
+  }
+  function boxTitle(box) {
+    var el = box;
+    while (el && !(el.classList && el.classList.contains('wrap'))) {
+      var sib = el.previousElementSibling;
+      while (sib) {
+        if (/^H[234]$/.test(sib.tagName)) return headingText(sib);
+        if (sib.querySelectorAll) {
+          var inner = sib.querySelectorAll('h2, h3, h4');
+          if (inner.length) return headingText(inner[inner.length - 1]);
+        }
+        sib = sib.previousElementSibling;
+      }
+      el = el.parentElement;
+    }
+    return boxId(box);
+  }
+  noteBoxes().forEach(function (box) {
+    var id = boxId(box);
+    var saved = store[id] || {};
+    var ta = box.querySelector('textarea');
+    if (ta) {
+      if (saved.note) ta.value = saved.note;
+      ta.addEventListener('input', function () {
+        store[id] = store[id] || {};
+        store[id].note = ta.value;
+        saveStore(store);
+      });
+    }
+    var group = box.querySelector('.verdicts');
+    if (group) {
+      group.querySelectorAll('.v-btn').forEach(function (btn) {
+        var isSaved = saved.verdict === btn.getAttribute('data-v');
+        btn.setAttribute('aria-pressed', isSaved ? 'true' : 'false');
+        if (isSaved) btn.classList.add('on');
+        btn.addEventListener('click', function () {
+          var wasOn = btn.classList.contains('on');
+          group.querySelectorAll('.v-btn').forEach(function (b) { b.classList.remove('on'); b.setAttribute('aria-pressed', 'false'); });
+          if (!wasOn) { btn.classList.add('on'); btn.setAttribute('aria-pressed', 'true'); }
+          store[id] = store[id] || {};
+          store[id].verdict = wasOn ? '' : btn.getAttribute('data-v');
+          saveStore(store);
+        });
+      });
+    }
+  });
+  // Export annotations using the nearest heading, without a separate title map.
+  document.getElementById('copyJson').addEventListener('click', function () {
+    var notes = noteBoxes().map(function (box) {
+      var group = box.querySelector('.verdicts');
+      var on = group ? group.querySelector('.v-btn.on') : null;
+      var ta = box.querySelector('textarea');
+      return { id: boxId(box), title: boxTitle(box), verdict: on ? on.getAttribute('data-v') : '', note: ta ? ta.value.trim() : '' };
+    });
+    var payload = JSON.stringify({ notes: notes }, null, 2);
+    var btn = document.getElementById('copyJson');
+    function done() { btn.classList.add('copied'); btn.textContent = 'Copied'; setTimeout(function () { btn.classList.remove('copied'); btn.textContent = 'Copy annotations JSON'; }, 1600); }
+    function showManual() {
+      var v = document.createElement('textarea');
+      v.value = payload;
+      v.setAttribute('aria-label', 'Annotation JSON for manual copying');
+      v.style.cssText = 'position:fixed;left:1rem;right:1rem;bottom:1rem;height:8rem;z-index:99;background:var(--card);color:var(--ink);border:2px solid var(--accent);border-radius:8px;padding:0.6rem;font:inherit;font-size:0.85rem;';
+      document.body.appendChild(v);
+      v.focus(); v.select();
+      btn.textContent = 'Copy failed. Select and copy the text below.';
+      v.addEventListener('blur', function () { v.remove(); btn.textContent = 'Copy annotations JSON'; });
+    }
+    function fallback() {
+      var t = document.createElement('textarea');
+      t.value = payload;
+      t.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;';
+      document.body.appendChild(t);
+      t.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(t);
+      if (ok) { done(); } else { showManual(); }
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(payload).then(done, function () { fallback(); });
+    } else { fallback(); }
+  });
+})();
+</script>
+
+</body>
+</html>

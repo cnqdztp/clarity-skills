@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Event registration</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #fcfbf8;
+      --ink: #262d32;
+      --muted: #5e696d;
+      --accent: #246c61;
+      --line: #d5ddd6;
+      --note: #edf3ee;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --paper: #191e20;
+        --ink: #e5eae5;
+        --muted: #adb7b4;
+        --accent: #9bd4be;
+        --line: #3c4b46;
+        --note: #222e29;
+      }
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --paper: #191e20;
+      --ink: #e5eae5;
+      --muted: #adb7b4;
+      --accent: #9bd4be;
+      --line: #3c4b46;
+      --note: #222e29;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 1rem/1.9 system-ui, "PingFang SC", "Microsoft YaHei", sans-serif;
+      overflow-wrap: anywhere;
+    }
+    main { max-width: 48rem; margin: auto; padding: 3.5rem 1.4rem 5rem; }
+    header { margin-bottom: 3rem; }
+    h1, h2 { line-height: 1.4; text-wrap: balance; }
+    h1 { font-family: "Songti SC", "Noto Serif CJK SC", serif; font-size: clamp(1.8rem, 5vw, 2.5rem); }
+    h2 { font-size: 1.25rem; margin-bottom: 1rem; }
+    p { margin: 0 0 1.1rem; }
+    section { margin-top: 2.5rem; scroll-margin-top: 1.5rem; }
+    .lead { color: var(--muted); font-size: 1.06rem; }
+    a { color: var(--accent); text-underline-offset: 0.2em; }
+    .nut {
+      font: inherit;
+      text-align: inherit;
+      color: var(--accent);
+      background: transparent;
+      border: 0;
+      border-bottom: 1px dotted currentColor;
+      border-radius: 0;
+      padding: 0;
+      cursor: pointer;
+      vertical-align: baseline;
+      overflow-wrap: anywhere;
+      max-width: 100%;
+    }
+    .nut:hover, .nut[aria-expanded="true"] { border-bottom-style: solid; }
+    .nut:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+    .nut-body {
+      display: block;
+      position: relative;
+      margin: 0.65rem 0;
+      padding: 0.65rem 0.9rem;
+      background: var(--note);
+      border-left: 2px solid var(--accent);
+      font-size: 0.95em;
+    }
+    .nut-body .nut-body { border-left-color: var(--line); font-size: 1em; }
+    .nut-shimmer { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .nut-shimmer::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(105deg, transparent 30%, color-mix(in srgb, var(--accent) 24%, transparent) 50%, transparent 70%);
+      background-size: 250% 100%;
+      background-repeat: no-repeat;
+      animation: nut-shimmer 1s ease-out;
+    }
+    @keyframes nut-shimmer {
+      from { background-position: 100% 0; }
+      to { background-position: -100% 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .nut-shimmer::after { animation: none; background: none; }
+    }
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    .num { font-variant-numeric: tabular-nums; }
+    pre { overflow-x: auto; padding: 1rem; background: var(--note); }
+    #glossary { border-top: 1px solid var(--line); padding-top: 1.5rem; margin-top: 4rem; }
+    #glossary-list { margin: 0; }
+    .glossary-entry { position: relative; display: flow-root; }
+    #glossary-list dt { font-weight: 650; margin-top: 1.25rem; }
+    #glossary-list dd { margin: 0.3rem 0 0; }
+    @media (max-width: 480px) {
+      main { padding: 2rem 1rem 3rem; }
+      .nut-body { padding: 0.5rem 0.65rem; }
+    }
+    @media print {
+      :root, :root[data-theme] { --paper: white; --ink: black; --muted: #333; --accent: black; --line: #bbb; color-scheme: light; }
+      main { max-width: none; padding: 0; }
+      .nut { color: inherit; border: 0; }
+      .nut-body { display: none; }
+      .nut-shimmer { outline: none; }
+      .nut-shimmer::after { display: none; }
+      h1, h2, dt { break-after: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Fictional example content. Replace the article and NUTS together for the actual document. -->
+  <main>
+    <article>
+      <header>
+        <h1>Event registration</h1>
+        <p class="lead">Submitting an application does not reserve a place. Registration becomes effective only when the applicant meets the conditions for attending and a place is available.</p>
+      </header>
+
+      <section aria-labelledby="confirmation-heading">
+        <h2 id="confirmation-heading">When a place is confirmed</h2>
+        <p>The organizer sends a notice after completing <button type="button" class="nut" data-term="Registration confirmation">registration confirmation</button>. Until that notice arrives, an application should not be treated as an accepted place.</p>
+        <p>If the conditions or availability change, pending applications are assessed under the updated circumstances. Confirmed places are not assigned to another applicant.</p>
+      </section>
+
+      <section aria-labelledby="waitlist-heading">
+        <h2 id="waitlist-heading">Applications after the event is full</h2>
+        <p>New applicants join the <button type="button" class="nut" data-term="Waiting list">waiting list</button>. When someone cancels, the organizer considers applicants in order, checks eligibility again, and offers the available place.</p>
+        <p>There is no fixed waiting time or guarantee of admission. An applicant may withdraw before receiving confirmation.</p>
+      </section>
+
+      <section aria-labelledby="cancellation-heading">
+        <h2 id="cancellation-heading">What happens after a cancellation</h2>
+        <p>A cancellation releases the applicant's <button type="button" class="nut" data-term="Place reservation">reserved place</button>. It does not affect anyone else's confirmed registration.</p>
+      </section>
+
+      <!-- Keep the glossary after all article content, sources, and appendices. -->
+      <section id="glossary" aria-labelledby="glossary-heading">
+        <h2 id="glossary-heading">Glossary</h2>
+        <dl id="glossary-list"></dl>
+      </section>
+    </article>
+  </main>
+
+  <script>
+    // Definitions are plain text. [[term]] and [[term|label]] reference this dictionary.
+    const NUTS = {
+      "Registration confirmation": "Registration confirmation combines [[Eligibility check|an eligibility check]] with [[Place reservation|a place reservation]]. The first establishes whether the applicant meets the conditions for attending; the second holds a place when one is available. Both steps must be complete before registration is confirmed.",
+      "Eligibility check": "Compare the application with the conditions for attending. Only applicants who meet those conditions proceed to [[Place reservation|place reservation]].",
+      "Place reservation": "Hold one of the remaining places for the applicant as part of [[Registration confirmation|registration confirmation]]. A cancellation releases it for someone else.",
+      "Waiting list": "Keep applications in submission order after all places have been taken. When a place becomes available, the organizer completes [[Eligibility check|an eligibility check]] and [[Place reservation|a place reservation]] before sending confirmation."
+};
+
+    const ancestry = new WeakMap();
+    const shimmerTimers = new WeakMap();
+    let panelNumber = 0;
+
+    function prepareButton(button, parents) {
+      const term = button.dataset.term;
+      if (!Object.hasOwn(NUTS, term)) {
+        throw new Error('Missing Nutshell definition: ' + term);
+      }
+      if (parents.has(term)) {
+        button.classList.add('nut-reference');
+        button.setAttribute('aria-controls', parents.get(term).id);
+      } else {
+        button.setAttribute('aria-expanded', 'false');
+      }
+      ancestry.set(button, parents);
+      return button;
+    }
+
+    function termNode(term, label, parents) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'nut';
+      button.dataset.term = term;
+      button.textContent = label;
+      return prepareButton(button, parents);
+    }
+
+    function definitionContent(text, parents) {
+      const fragment = document.createDocumentFragment();
+      const references = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g;
+      let cursor = 0;
+      for (const match of text.matchAll(references)) {
+        fragment.append(document.createTextNode(text.slice(cursor, match.index)));
+        fragment.append(termNode(match[1], match[2] || match[1], parents));
+        cursor = match.index + match[0].length;
+      }
+      fragment.append(document.createTextNode(text.slice(cursor)));
+      return fragment;
+    }
+
+    function shimmerExplanation(panel) {
+      clearTimeout(shimmerTimers.get(panel));
+      panel.classList.remove('nut-shimmer');
+      void panel.offsetWidth;
+      panel.classList.add('nut-shimmer');
+      shimmerTimers.set(panel, setTimeout(() => panel.classList.remove('nut-shimmer'), 1000));
+      panel.scrollIntoView({
+        block: 'nearest',
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+      });
+    }
+
+    function activateTerm(button) {
+      const term = button.dataset.term;
+      const ancestor = ancestry.get(button).get(term);
+      if (ancestor) {
+        shimmerExplanation(ancestor);
+        return;
+      }
+      if (button.getAttribute('aria-expanded') === 'true') {
+        document.getElementById(button.getAttribute('aria-controls')).remove();
+        button.setAttribute('aria-expanded', 'false');
+        button.removeAttribute('aria-controls');
+        return;
+      }
+      const parents = new Map(ancestry.get(button));
+      const panel = document.createElement('span');
+      panel.className = 'nut-body';
+      panel.id = 'nut-panel-' + (++panelNumber);
+      parents.set(term, panel);
+      panel.append(definitionContent(NUTS[term], parents));
+      // Keep the entire source text together; explanations follow its last sentence.
+      const textBlock = button.closest('.nut-body, p, h1, h2, h3, h4, h5, h6, li, dt, dd, td, th, figcaption, blockquote');
+      textBlock.append(panel);
+      button.setAttribute('aria-controls', panel.id);
+      button.setAttribute('aria-expanded', 'true');
+    }
+
+    document.querySelectorAll('button.nut').forEach(button => prepareButton(button, new Map()));
+    document.addEventListener('click', event => {
+      const button = event.target.closest('button.nut');
+      if (button) activateTerm(button);
+    });
+
+    const glossary = document.getElementById('glossary-list');
+    for (const [term, definition] of Object.entries(NUTS)) {
+      const entry = document.createElement('div');
+      entry.className = 'glossary-entry';
+      entry.id = 'nut-glossary-' + (++panelNumber);
+      const title = document.createElement('dt');
+      title.textContent = term;
+      const body = document.createElement('dd');
+      body.append(definitionContent(definition, new Map([[term, entry]])));
+      entry.append(title, body);
+      glossary.append(entry);
+    }
+  </script>
+</body>
+</html>

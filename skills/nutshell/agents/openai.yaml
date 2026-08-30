@@ -1,0 +1,4 @@
+interface:
+  display_name: "Nutshell"
+  short_description: "Write documents with recursive, in-context explanations"
+  default_prompt: "Use $nutshell to turn this material into a document with coherent context, recursive explanations, explicit components of combined concepts, and a glossary at the end."

@@ -1,0 +1,23 @@
+{
+  "name": "clarity-skills",
+  "owner": {
+    "name": "cnzang",
+    "email": "cnzangtianpei@gmail.com"
+  },
+  "metadata": {
+    "description": "Agent skills for clear documents and considered design decisions.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "clarity",
+      "source": "./",
+      "description": "Clarity Skills: expandable documents with nutshell and decision-review pages with design-review.",
+      "version": "1.0.0",
+      "author": { "name": "cnzang" },
+      "license": "MIT",
+      "keywords": ["documents", "writing", "nutshell", "design-review", "skills"],
+      "category": "productivity"
+    }
+  ]
+}

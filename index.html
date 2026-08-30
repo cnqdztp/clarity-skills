@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Writing skills for AI assistants that help authors provide the context readers need to understand and discuss a proposal.">
+  <title>Clarity Skills — Writing with context</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #fffefa;
+      --ink: #222220;
+      --muted: #6a6963;
+      --line: #dcdad3;
+      --note: #f3f1e9;
+      --accent: #222220;
+      --shine: #e1bd56;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --paper: #20211f;
+        --ink: #f5f2e9;
+        --muted: #b1b0a7;
+        --line: #494a43;
+        --note: #2b2d28;
+        --accent: #f5f2e9;
+        --shine: #cfb56e;
+      }
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --paper: #20211f;
+      --ink: #f5f2e9;
+      --muted: #b1b0a7;
+      --line: #494a43;
+      --note: #2b2d28;
+      --accent: #f5f2e9;
+      --shine: #cfb56e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 19px/1.9 -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      overflow-wrap: anywhere;
+    }
+    main { width: min(100%, 960px); margin: auto; padding: 38px 56px 64px; }
+    a { color: inherit; text-underline-offset: .2em; }
+    a:hover { text-decoration-thickness: 2px; }
+    a:focus-visible, summary:focus-visible, .nut:focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 5px;
+    }
+    .hero-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; column-gap: 24px; row-gap: 12px; margin-bottom: 28px; }
+    .hero-heading h1 { margin: 0; }
+    .language-switch { display: flex; gap: 14px; }
+    .language-switch button { color: var(--muted); background: none; border: 0; border-bottom: 1px solid transparent; padding: 6px 0; font: inherit; font-size: 14px; line-height: 1.5; cursor: pointer; }
+    .language-switch button[aria-pressed="true"] { color: var(--ink); border-bottom-color: currentColor; }
+    .language-switch button:hover { color: var(--ink); }
+    .language-switch button:focus-visible { outline: 2px solid var(--ink); outline-offset: 5px; }
+    .hero { margin: 20px 0 72px; }
+    h1 { font-size: clamp(42px, 7.6vw, 72px); font-weight: 450; line-height: 1.32; letter-spacing: -.055em; margin: 0 0 28px; }
+    .hero p { max-width: 34em; margin: 0 0 16px; font-size: 20px; }
+    .skill { margin-top: 54px; }
+    h2 { font-size: clamp(27px, 4.4vw, 43px); line-height: 1.6; letter-spacing: -.04em; font-weight: 400; margin: 0 0 20px; }
+    .skill > p { max-width: 36em; margin: 0 0 15px; }
+    .source-link { font-size: 14px; color: var(--muted); }
+    .nut {
+      font: inherit;
+      color: var(--accent);
+      text-align: inherit;
+      border: 0;
+      border-bottom: 1px dotted currentColor;
+      border-radius: 0;
+      background: none;
+      padding: 0;
+      cursor: pointer;
+      vertical-align: baseline;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+    }
+    .nut:hover, .nut[aria-expanded="true"] { border-bottom-style: solid; }
+    .nut-body {
+      display: block;
+      position: relative;
+      margin: 16px 0;
+      padding: 15px 20px;
+      background: var(--note);
+      border-left: 2px solid var(--accent);
+      font-size: 18px;
+      line-height: 1.9;
+      font-weight: 400;
+      letter-spacing: normal;
+    }
+    .nut-body .nut-body { border-left-color: var(--line); font-size: 1em; }
+    .nut-shimmer { outline: 2px solid var(--shine); outline-offset: 2px; }
+    .nut-shimmer::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(105deg, transparent 30%, color-mix(in srgb, var(--shine) 28%, transparent) 50%, transparent 70%);
+      background-size: 250% 100%;
+      background-repeat: no-repeat;
+      animation: nut-shimmer 1s ease-out;
+    }
+    @keyframes nut-shimmer {
+      from { background-position: 100% 0; }
+      to { background-position: -100% 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .nut-shimmer::after { animation: none; background: none; }
+    }
+    .colophon { margin-top: 82px; padding-top: 24px; border-top: 1px solid var(--line); }
+    .colophon nav { display: flex; gap: 24px; flex-wrap: wrap; font-size: 15px; }
+    .credit { margin: 22px 0 0; color: var(--muted); font-size: 12px; }
+    .credit a { text-decoration-color: var(--line); }
+    #glossary { margin-top: 30px; border-top: 1px solid var(--line); padding-top: 21px; }
+    #glossary summary { width: fit-content; font-size: 14px; color: var(--muted); cursor: pointer; }
+    #glossary-list { margin: 24px 0 0; font-size: 16px; }
+    .glossary-entry { position: relative; display: flow-root; margin-bottom: 22px; }
+    #glossary-list dt { font-weight: 600; }
+    #glossary-list dd { margin: 4px 0 0; color: var(--muted); }
+    #glossary-list .nut-body { color: var(--ink); font-size: 1em; }
+    @media (max-width: 600px) {
+      main { padding: 26px 24px 42px; }
+      .hero { margin: 12px 0 48px; }
+      .hero p { font-size: 17px; }
+      body { font-size: 17px; }
+      .skill { margin-top: 44px; }
+      .nut-body { padding: 12px; font-size: 17px; }
+      .colophon { margin-top: 58px; }
+    }
+    @media print {
+      :root, :root[data-theme] { --paper: white; --ink: black; --muted: #444; --accent: black; --line: #bbb; color-scheme: light; }
+      main { width: auto; padding: 0; }
+      .hero { margin: 32px 0; }
+      .language-switch { display: none; }
+      h1 { font-size: 40px; }
+      h2 { font-size: 26px; }
+      .nut { border: 0; }
+      .nut-body { display: none; }
+      .nut-shimmer { outline: none; }
+      .nut-shimmer::after { display: none; }
+      h1, h2, dt { break-after: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <article>
+      <header class="hero">
+        <div class="hero-heading">
+          <h1>Clarity Skills</h1>
+          <nav class="language-switch" aria-label="Language">
+            <button type="button" data-language="en" lang="en" aria-pressed="true">English</button>
+            <button type="button" data-language="zh" lang="zh-CN" aria-pressed="false">简体中文</button>
+            <button type="button" data-language="ja" lang="ja" aria-pressed="false">日本語</button>
+          </nav>
+        </div>
+        <p data-copy="introOne">An event notice may say that a waiting list is available without explaining whether applicants should come to the venue. What seems obvious to the writer may leave a first-time participant unsure what to do.</p>
+        <p data-copy="introTwo">Clarity is a collection of writing skills for AI assistants. They help authors supply the context readers need to understand a proposal and judge its merits.</p>
+      </header>
+
+      <section class="skill" aria-labelledby="nutshell-title">
+        <h2 id="nutshell-title" data-copy="nutshellHeading"><button type="button" class="nut" data-term="In-context explanation" aria-expanded="false">Where an explanation belongs</button></h2>
+        <p data-copy="nutshellOne">A question about the waiting list is best answered where the term appears. nutshell keeps that explanation in place. Readers can find out how a place is offered without leaving the notice to search for a separate set of rules.</p>
+        <p data-copy="nutshellTwo">This <button type="button" class="nut" data-term="Progressive disclosure" aria-expanded="false">progressive disclosure</button> does not mean withholding essential information. The deadline still belongs in the main text. Readers familiar with the process need not work through every detail again.</p>
+        <a class="source-link" href="skills/nutshell/SKILL.md" data-copy="readNutshell">Read nutshell ↗</a>
+      </section>
+
+      <section class="skill" aria-labelledby="review-title">
+        <h2 id="review-title" data-copy="reviewHeading"><button type="button" class="nut" data-term="Design review" aria-expanded="false">From a proposal to a decision</button></h2>
+        <p data-copy="reviewOne">Understanding a rule does not settle whether it is a good one. Consider a proposal to add daily quests to a game. It might give players a reason to return, or turn playing into another obligation. The discussion needs to begin with that experience.</p>
+        <p data-copy="reviewTwo">design-review keeps comments alongside the proposal they address, so the author can see where people disagree. Once a decision is reached, a <button type="button" class="nut" data-term="Decision record" aria-expanded="false">decision record</button> preserves the reasoning. Someone revising the proposal later can understand how the earlier choice was made.</p>
+        <a class="source-link" href="skills/design-review/SKILL.md" data-copy="readReview">Read design-review ↗</a>
+      </section>
+
+      <footer class="colophon">
+        <nav id="resource-links" aria-label="Project resources">
+          <a href="README.md" data-copy="getSkills">Get the skills ↗</a>
+          <a href="skills/nutshell/assets/document.html" data-copy="example">Example document ↗</a>
+          <a href="LICENSE" data-copy="license">MIT License ↗</a>
+        </nav>
+        <p class="credit"><span data-copy="creditPrefix">Reading form inspired by </span><a href="https://ncase.me/nutshell/" data-copy="creditName">Nicky Case’s Nutshell</a><span data-copy="creditSuffix">.</span></p>
+      </footer>
+
+      <section id="glossary" aria-label="Glossary">
+        <details id="glossary-details">
+          <summary data-copy="glossary">Glossary</summary>
+          <dl id="glossary-list"></dl>
+        </details>
+      </section>
+    </article>
+  </main>
+  <script>
+    // Homepage translations stay in this self-contained file.
+    const I18N = {
+  "en": {
+    "htmlLang": "en",
+    "title": "Clarity Skills — Writing with context",
+    "description": "Writing skills for AI assistants that help authors provide the context readers need to understand and discuss a proposal.",
+    "languageLabel": "Language",
+    "resourcesLabel": "Project resources",
+    "copy": {
+      "introOne": "An event notice may say that a waiting list is available without explaining whether applicants should come to the venue. What seems obvious to the writer may leave a first-time participant unsure what to do.",
+      "introTwo": "Clarity is a collection of writing skills for AI assistants. They help authors supply the context readers need to understand a proposal and judge its merits.",
+      "nutshellHeading": "[[In-context explanation|Where an explanation belongs]]",
+      "nutshellOne": "A question about the waiting list is best answered where the term appears. nutshell keeps that explanation in place. Readers can find out how a place is offered without leaving the notice to search for a separate set of rules.",
+      "nutshellTwo": "This [[Progressive disclosure|progressive disclosure]] does not mean withholding essential information. The deadline still belongs in the main text. Readers familiar with the process need not work through every detail again.",
+      "reviewHeading": "[[Design review|From a proposal to a decision]]",
+      "reviewOne": "Understanding a rule does not settle whether it is a good one. Consider a proposal to add daily quests to a game. It might give players a reason to return, or turn playing into another obligation. The discussion needs to begin with that experience.",
+      "reviewTwo": "design-review keeps comments alongside the proposal they address, so the author can see where people disagree. Once a decision is reached, a [[Decision record|decision record]] preserves the reasoning. Someone revising the proposal later can understand how the earlier choice was made.",
+      "readNutshell": "Read nutshell ↗",
+      "readReview": "Read design-review ↗",
+      "getSkills": "Get the skills ↗",
+      "example": "Example document ↗",
+      "license": "MIT License ↗",
+      "creditPrefix": "Reading form inspired by ",
+      "creditName": "Nicky Case’s Nutshell",
+      "creditSuffix": ".",
+      "glossary": "Glossary"
+    },
+    "terms": {
+      "In-context explanation": "When a notice mentions a waiting list, the explanation appears nearby. Readers can fill in the missing context and continue the original sentence. If the explanation introduces another unfamiliar concept, they can follow [[Recursive explanation|recursive explanations]] for further detail.",
+      "Recursive explanation": "An explanation can contain explanations of other concepts. Each layer uses [[In-context explanation|in-context explanation]], letting readers follow their own questions. A reference to a concept already open on the current path points back to the existing explanation.",
+      "Progressive disclosure": "This approach combines [[Information hierarchy|information hierarchy]] with [[On-demand presentation|on-demand presentation]]: first distinguish what readers need to know immediately, then reveal supplementary explanations when needed. A registration deadline stays in the main text; details of how a waiting list works can be explored separately.",
+      "Information hierarchy": "In a registration notice, the Friday deadline belongs in the main text. An example of how to complete the form can sit in a supplementary explanation. What comes first depends on what readers need to do. [[On-demand presentation]] determines when the additional material appears.",
+      "On-demand presentation": "Someone familiar with registration need not reread the definition of a waiting list, while a first-time applicant may need it. The explanation therefore appears when requested. [[In-context explanation]] keeps it connected to the sentence being read.",
+      "Design review": "Judging whether to add daily quests requires an account of their likely effect on players and the cost of implementing and maintaining them. Reviewers offer specific observations through [[Item-level annotations|item-level annotations]]. A [[Decision record|decision record]] preserves the outcome for later revisions.",
+      "Item-level annotations": "A reviewer might support adding quests but disagree with requiring daily logins. Recording comments beside those separate decisions shows the author what has been accepted and what still needs discussion. These comments provide the material for [[Design review|design review]].",
+      "Decision record": "Months later, someone taking over a proposal should be able to find the decision and its reasons. If the proposal changes, the record retains the earlier conclusion and explains the evidence behind the revision."
+    }
+  },
+  "zh": {
+    "htmlLang": "zh-CN",
+    "title": "Clarity Skills — 在上下文中理解文档",
+    "description": "Clarity 是一组供 AI 助手使用的写作技能，帮助作者补足读者需要的背景，让文档中的安排能够被理解和讨论。",
+    "languageLabel": "语言",
+    "resourcesLabel": "项目资料",
+    "copy": {
+      "introOne": "如果一份活动通知只写着「可以候补」，第一次报名的人可能仍不知道，自己是否需要到场等候。作者熟悉的背景，并不会自动成为读者的常识。",
+      "introTwo": "Clarity 是一组供 AI 助手使用的写作技能。它帮助作者补足这些背景，让读者能够理解一项安排，并判断它是否合适。",
+      "nutshellHeading": "[[原位解释|解释应当出现在哪里]]",
+      "nutshellOne": "对「候补」的疑问，最好在读者遇到这个词时得到回答。nutshell 将补充说明留在原处。读者可以继续了解名额如何递补，而不用离开通知，另找一份规则。",
+      "nutshellTwo": "这种[[渐进式披露]]并不意味着把重要信息藏起来。截止时间仍然需要写在正文中；已经熟悉流程的人，则不必每次都读完全部细节。",
+      "reviewHeading": "[[设计审查|从一份方案到一个决定]]",
+      "reviewOne": "理解了规则，还可能对规则本身有不同看法。假设一项游戏提案建议增加每日任务。它或许能给玩家一个返回游戏的理由，也可能让游戏变成一项必须完成的日程。讨论需要从这种具体的影响出发。",
+      "reviewTwo": "design-review 把意见留在对应的提案旁边，使作者能够分辨分歧发生在哪里。形成结论后，[[决策记录]]保留当时的理由。后来修改方案的人，也能知道此前的选择是怎样作出的。",
+      "readNutshell": "查看 nutshell ↗",
+      "readReview": "查看 design-review ↗",
+      "getSkills": "获取技能 ↗",
+      "example": "示例文档 ↗",
+      "license": "MIT 许可 ↗",
+      "creditPrefix": "阅读形式参考 ",
+      "creditName": "Nicky Case 的 Nutshell",
+      "creditSuffix": "。",
+      "glossary": "术语表"
+    },
+    "terms": {
+      "原位解释": "活动通知中出现「候补」时，说明就放在这个词旁边。读者补上需要的背景后，仍能接着读原来的句子。如果说明里还涉及其他不熟悉的概念，可以通过[[递归解释]]继续了解。",
+      "递归解释": "一个概念的解释中，还可以包含其他概念的解释。每一层都采用[[原位解释]]，使读者能够沿着自己的疑问深入。再次遇到当前路径中已经展开的概念时，页面会指出已有的那段说明。",
+      "渐进式披露": "这个做法把[[信息分层]]和[[按需呈现]]放在一起：先区分读者眼下必须知道的内容，再让补充解释在需要时出现。比如报名截止时间不能藏起来，候补名额如何递补则可以展开再读。",
+      "信息分层": "写报名通知时，「周五截止」要留在正文里，填写表格的一个小例子可以放进补充解释。哪些内容先说，取决于读者要做什么。[[按需呈现]]再决定这些补充内容何时出现。",
+      "按需呈现": "熟悉报名流程的人，不必再次阅读「候补」的定义；第一次报名的人却可能需要它。这段解释因此在有需要时才出现。采用[[原位解释]]，还能让补充内容与正在阅读的句子保持联系。",
+      "设计审查": "判断是否增加每日任务，需要先了解它可能怎样影响玩家，以及实现和维护它的代价。评审者通过[[逐项批注]]提出具体意见，讨论结果则写入[[决策记录]]，作为后续修改的依据。",
+      "逐项批注": "评审者可能同意增加任务，却不赞成要求玩家每天登录。把意见分别留在这两项决定旁边，作者就能知道哪些内容已被接受，哪些仍需讨论。这些意见是[[设计审查]]的具体材料。",
+      "决策记录": "几个月后，接手方案的人应当能够找到当时的决定和理由。如果后来改变了方案，记录保留旧结论，并说明促成这次变化的依据。"
+    }
+  },
+  "ja": {
+    "htmlLang": "ja",
+    "title": "Clarity Skills — 文脈から理解を深める",
+    "description": "読み手が提案を理解し、検討するために必要な背景を補う、AI アシスタント向けの文章作成スキル集。",
+    "languageLabel": "言語",
+    "resourcesLabel": "プロジェクト資料",
+    "copy": {
+      "introOne": "案内に「キャンセル待ち可」とだけ書かれていても、初めて参加する人には、会場で待つ必要があるのか分からないかもしれません。書き手にとって当然の前提が、読み手にも共有されているとは限りません。",
+      "introTwo": "Clarity は、AI アシスタントのための文章作成スキル集です。読み手が内容を理解し、その取り決めが適切かどうか判断できるよう、必要な背景を補う手助けをします。",
+      "nutshellHeading": "[[文脈内の説明|説明を置く場所]]",
+      "nutshellOne": "キャンセル待ちについての疑問には、その言葉を読んだ場所で答えが見つかるのが自然です。nutshell は補足説明をその場に置きます。読み手は案内を離れて別の規約を探すことなく、空きが出たときの扱いを確かめられます。",
+      "nutshellTwo": "この[[段階的開示]]は、重要な情報を隠すことではありません。申込期限は本文に残す必要があります。一方、手続きに慣れた人が、毎回すべての細部を読み直す必要はありません。",
+      "reviewHeading": "[[デザインレビュー|提案から決定に至るまで]]",
+      "reviewOne": "ルールを理解しても、そのルールが適切かどうかについては意見が分かれます。ゲームにデイリークエストを追加する提案を考えてみましょう。再び遊ぶ理由になるかもしれませんが、遊ぶことを毎日の義務に変える可能性もあります。議論は、こうした具体的な体験から始める必要があります。",
+      "reviewTwo": "design-review は、意見を対象となる提案のそばに残し、どこで見解が分かれているのかを作者に伝えます。結論が出たら、[[決定記録]]にその理由を残します。後から提案を変更する人も、以前の選択に至った経緯を理解できます。",
+      "readNutshell": "nutshell を読む ↗",
+      "readReview": "design-review を読む ↗",
+      "getSkills": "スキルを入手 ↗",
+      "example": "文書の例 ↗",
+      "license": "MIT ライセンス ↗",
+      "creditPrefix": "読書形式の参考：",
+      "creditName": "Nicky Case の Nutshell",
+      "creditSuffix": "。",
+      "glossary": "用語集"
+    },
+    "terms": {
+      "文脈内の説明": "案内に「キャンセル待ち」と出てきたとき、その言葉のそばで説明を読めるようにします。必要な背景を補った後も、元の文章を続けて読めます。説明の中に別の分からない概念があれば、[[再帰的な説明]]を通じて理解を深められます。",
+      "再帰的な説明": "ある概念の説明の中に、別の概念の説明を含めることができます。各段階で[[文脈内の説明]]を使うことで、読み手は自分の疑問に沿って読み進められます。今の経路ですでに開いた概念が再び出てきた場合は、既存の説明を示します。",
+      "段階的開示": "この方法は[[情報の階層化]]と[[必要に応じた提示]]を組み合わせます。まず読み手が今すぐ知るべき内容を分け、補足説明は必要になった時点で示します。たとえば申込期限は本文に残し、キャンセル待ちの繰り上げ方法は詳しく読みたい人が確認できるようにします。",
+      "情報の階層化": "申込案内では「金曜日が締め切り」という情報を本文に残し、記入例は補足説明に置くことができます。何を先に伝えるかは、読み手が何をしようとしているかによって決まります。補足をいつ見せるかは、[[必要に応じた提示]]で決めます。",
+      "必要に応じた提示": "申込手続きに慣れた人にはキャンセル待ちの定義を読み直す必要がなくても、初めて申し込む人には必要かもしれません。そのため、説明は求められたときに示します。[[文脈内の説明]]を使えば、補足と読んでいる文章とのつながりも保てます。",
+      "デザインレビュー": "デイリークエストを追加するか判断するには、プレイヤーへの影響と、実装・維持にかかる負担を理解する必要があります。レビュー担当者は[[項目ごとのコメント]]で具体的な意見を示し、議論の結果を[[決定記録]]に残して後の変更の根拠にします。",
+      "項目ごとのコメント": "クエストの追加には賛成でも、毎日のログインを必須にすることには反対かもしれません。それぞれの決定のそばに意見を残すと、何が受け入れられ、何を引き続き話し合うべきかが分かります。これらの意見が[[デザインレビュー]]の材料になります。",
+      "決定記録": "数か月後に提案を引き継ぐ人が、当時の決定と理由を確認できるようにします。後から提案を変更した場合も、以前の結論を残し、変更の根拠を記録します。"
+    }
+  }
+};
+    let NUTS;
+    const LANGUAGE_KEY = 'clarity-homepage-language';
+    const ancestry = new WeakMap();
+    const shimmerTimers = new WeakMap();
+    let panelNumber = 0;
+
+    function prepareButton(button, parents) {
+      const term = button.dataset.term;
+      if (!Object.hasOwn(NUTS, term)) {
+        throw new Error('Missing Nutshell definition: ' + term);
+      }
+      if (parents.has(term)) {
+        button.classList.add('nut-reference');
+        button.setAttribute('aria-controls', parents.get(term).id);
+      } else {
+        button.setAttribute('aria-expanded', 'false');
+      }
+      ancestry.set(button, parents);
+      return button;
+    }
+
+    function termNode(term, label, parents) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'nut';
+      button.dataset.term = term;
+      button.textContent = label;
+      return prepareButton(button, parents);
+    }
+
+    function definitionContent(text, parents) {
+      const fragment = document.createDocumentFragment();
+      const references = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g;
+      let cursor = 0;
+      for (const match of text.matchAll(references)) {
+        fragment.append(document.createTextNode(text.slice(cursor, match.index)));
+        fragment.append(termNode(match[1], match[2] || match[1], parents));
+        cursor = match.index + match[0].length;
+      }
+      fragment.append(document.createTextNode(text.slice(cursor)));
+      return fragment;
+    }
+
+    function shimmerExplanation(panel) {
+      clearTimeout(shimmerTimers.get(panel));
+      panel.classList.remove('nut-shimmer');
+      void panel.offsetWidth;
+      panel.classList.add('nut-shimmer');
+      shimmerTimers.set(panel, setTimeout(() => panel.classList.remove('nut-shimmer'), 1000));
+      panel.scrollIntoView({
+        block: 'nearest',
+        behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+      });
+    }
+
+    function activateTerm(button) {
+      const term = button.dataset.term;
+      const ancestor = ancestry.get(button).get(term);
+      if (ancestor) {
+        shimmerExplanation(ancestor);
+        return;
+      }
+      if (button.getAttribute('aria-expanded') === 'true') {
+        document.getElementById(button.getAttribute('aria-controls')).remove();
+        button.setAttribute('aria-expanded', 'false');
+        button.removeAttribute('aria-controls');
+        return;
+      }
+      const parents = new Map(ancestry.get(button));
+      const panel = document.createElement('span');
+      panel.className = 'nut-body';
+      panel.id = 'nut-panel-' + (++panelNumber);
+      parents.set(term, panel);
+      panel.append(definitionContent(NUTS[term], parents));
+      // Keep the entire source text together; explanations follow its last sentence.
+      const textBlock = button.closest('.nut-body, p, h1, h2, h3, h4, h5, h6, li, dt, dd, td, th, figcaption, blockquote');
+      textBlock.append(panel);
+      button.setAttribute('aria-controls', panel.id);
+      button.setAttribute('aria-expanded', 'true');
+    }
+
+    function buildGlossary() {
+      const glossary = document.getElementById('glossary-list');
+      glossary.replaceChildren();
+      for (const [term, definition] of Object.entries(NUTS)) {
+        const entry = document.createElement('div');
+        entry.className = 'glossary-entry';
+        entry.id = 'nut-glossary-' + (++panelNumber);
+        const title = document.createElement('dt');
+        title.textContent = term;
+        const body = document.createElement('dd');
+        body.append(definitionContent(definition, new Map([[term, entry]])));
+        entry.append(title, body);
+        glossary.append(entry);
+      }
+    }
+
+    function applyLanguage(language) {
+      const page = I18N[language];
+      NUTS = page.terms;
+      document.documentElement.lang = page.htmlLang;
+      document.title = page.title;
+      document.querySelector('meta[name="description"]').content = page.description;
+      document.querySelector('.language-switch').setAttribute('aria-label', page.languageLabel);
+      document.getElementById('resource-links').setAttribute('aria-label', page.resourcesLabel);
+      document.getElementById('glossary').setAttribute('aria-label', page.copy.glossary);
+      // Replacing each text block also removes its expanded panels from the old language.
+      document.querySelectorAll('[data-copy]').forEach(element => {
+        element.replaceChildren(definitionContent(page.copy[element.dataset.copy], new Map()));
+      });
+      buildGlossary();
+      document.querySelectorAll('[data-language]').forEach(button => {
+        button.setAttribute('aria-pressed', String(button.dataset.language === language));
+      });
+    }
+
+    function setLanguage(language) {
+      applyLanguage(language);
+      try {
+        localStorage.setItem(LANGUAGE_KEY, language);
+      } catch {
+        // The page remains usable when a browser disallows local storage.
+      }
+    }
+
+    function detectLanguage() {
+      try {
+        const saved = localStorage.getItem(LANGUAGE_KEY);
+        if (Object.hasOwn(I18N, saved)) return saved;
+      } catch {
+        // Use the browser preference when storage is unavailable.
+      }
+      for (const preference of navigator.languages) {
+        const language = preference.toLowerCase().split('-')[0];
+        if (Object.hasOwn(I18N, language)) return language;
+      }
+      return 'en';
+    }
+
+    document.addEventListener('click', event => {
+      const languageButton = event.target.closest('[data-language]');
+      if (languageButton) {
+        setLanguage(languageButton.dataset.language);
+        return;
+      }
+      const termButton = event.target.closest('button.nut');
+      if (termButton) activateTerm(termButton);
+    });
+
+    const glossaryDetails = document.getElementById('glossary-details');
+    let glossaryWasOpen;
+    window.addEventListener('beforeprint', () => {
+      glossaryWasOpen = glossaryDetails.open;
+      glossaryDetails.open = true;
+    });
+    window.addEventListener('afterprint', () => {
+      glossaryDetails.open = glossaryWasOpen;
+    });
+
+    applyLanguage(detectLanguage());
+  </script>
+</body>
+</html>
