@@ -114,6 +114,51 @@
     @media (prefers-reduced-motion: reduce) {
       .nut-shimmer::after { animation: none; background: none; }
     }
+    .review-example {
+      --review-accent: #0e7c6f;
+      --review-ok: #2e7d4f;
+      --review-warn: #9a6b15;
+      --review-bad: #a8443a;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 26px 24px;
+      margin: 28px 0;
+      font-size: 17px;
+      line-height: 1.85;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .review-example { --review-accent: #79c6ba; --review-ok: #83c89f; --review-warn: #dfbd79; --review-bad: #e8a299; }
+    }
+    :root[data-theme="dark"] .review-example { --review-accent: #79c6ba; --review-ok: #83c89f; --review-warn: #dfbd79; --review-bad: #e8a299; }
+    .review-bar { position: sticky; top: 0; z-index: 2; background: var(--paper); padding: 20px 0 14px; display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px 20px; border-bottom: 1px solid var(--line); margin-bottom: 18px; }
+    .review-bar h3 { font-family: "Songti SC", "Noto Serif CJK SC", Georgia, serif; font-size: 24px; font-weight: 500; line-height: 1.5; margin: 0; flex: 1 1 270px; }
+    .chip { display: inline-block; font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 12px; font-weight: 500; line-height: 1.6; border-radius: 999px; padding: 2px 9px; margin-left: 8px; vertical-align: middle; }
+    .chip.proposed { color: var(--review-accent); background: color-mix(in srgb, var(--review-accent) 10%, var(--paper)); }
+    .review-example p { margin: 0 0 12px; }
+    .review-example .cost { color: var(--muted); font-size: 15px; border-top: 1px dashed var(--line); padding-top: 16px; margin-top: 20px; }
+    .copy-btn, .v-btn { font: inherit; font-size: 14px; color: var(--ink); background: none; border: 1px solid var(--line); padding: 6px 14px; cursor: pointer; }
+    .copy-btn { border-radius: 5px; }
+    .copy-btn:hover, .v-btn:hover { border-color: var(--muted); }
+    .copy-btn:focus-visible, .v-btn:focus-visible, .review-example textarea:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+    .note-box { margin-top: 20px; border-top: 1px solid var(--line); padding-top: 18px; }
+    .note-title { display: block; font-size: 14px; color: var(--muted); margin-bottom: 10px; }
+    .verdicts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .v-btn { border-radius: 999px; }
+    .v-btn[data-v="accept"] { --verdict-color: var(--review-ok); }
+    .v-btn[data-v="revise"] { --verdict-color: var(--review-warn); }
+    .v-btn[data-v="reject"] { --verdict-color: var(--review-bad); }
+    .v-btn[aria-pressed="true"] { color: var(--verdict-color); border-color: currentColor; background: color-mix(in srgb, var(--verdict-color) 10%, var(--paper)); }
+    .review-example textarea { width: 100%; min-height: 90px; font: inherit; font-size: 16px; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 5px; padding: 10px 12px; resize: vertical; }
+    .review-feedback { color: var(--muted); font-size: 14px; margin-top: 10px !important; }
+    .review-example .manual-json { min-height: 180px; margin-top: 12px; font: 13px/1.6 ui-monospace, SFMono-Regular, monospace; }
+    @media (max-width: 600px) {
+      .review-example { padding: 0 16px 18px; font-size: 16px; }
+      .review-bar h3 { font-size: 22px; }
+    }
+    @media print {
+      .review-bar { position: static; }
+      .copy-btn, .verdicts, .review-feedback, .manual-json { display: none; }
+    }
     .colophon { margin-top: 82px; padding-top: 24px; border-top: 1px solid var(--line); }
     .colophon nav { display: flex; gap: 24px; flex-wrap: wrap; font-size: 15px; }
     .credit { margin: 22px 0 0; color: var(--muted); font-size: 12px; }
@@ -162,6 +207,7 @@
           </nav>
         </div>
         <p data-copy="introOne">An event notice may say that a waiting list is available without explaining whether applicants should come to the venue. What seems obvious to the writer may leave a first-time participant unsure what to do.</p>
+        <p data-copy="introAI">AI has the same problem. It tends to bring loosely connected concepts together into a system of its own, then hand the user a planning document that is often hard to follow.</p>
         <p data-copy="introTwo">Clarity is a collection of writing skills for AI assistants. They help authors supply the context readers need to understand a proposal and judge its merits.</p>
       </header>
 
@@ -174,7 +220,30 @@
 
       <section class="skill" aria-labelledby="review-title">
         <h2 id="review-title" data-copy="reviewHeading"><button type="button" class="nut" data-term="Design review" aria-expanded="false">From a proposal to a decision</button></h2>
-        <p data-copy="reviewOne">Understanding a rule does not settle whether it is a good one. Consider a proposal to add daily quests to a game. It might give players a reason to return, or turn playing into another obligation. The discussion needs to begin with that experience.</p>
+        <p data-copy="reviewOne">Understanding a rule does not settle whether it is a good one. Consider this example of daily quests in a game. They may give players a reason to return, but they can also make playing feel like a daily obligation.</p>
+        <section class="review-example review-item" aria-labelledby="review-example-title">
+          <header class="review-bar">
+            <h3 id="review-example-title"><span data-copy="reviewExampleTitle">Keep daily quests for three days</span><span class="chip proposed" data-copy="reviewProposed">Proposed</span></h3>
+            <button type="button" class="copy-btn" id="copy-notes" data-copy="copyNotes">Copy annotations JSON</button>
+          </header>
+          <p data-copy="reviewCurrent">In this example, a set of quests appears at midnight each day and expires 24 hours later. A player who skips a day returns to find those quests gone.</p>
+          <p data-copy="reviewProblem">Completing quests therefore depends on logging in every day. Even a player with time to catch up cannot recover the missed opportunity.</p>
+          <p data-copy="reviewChange">The proposal keeps the daily schedule but makes each set available for 72 hours. The reward for each quest stays the same.</p>
+          <p data-copy="reviewImpact">Players could miss a day or two and complete the quests that remain available when they return. Older quests would still expire, so there would be no unlimited backlog.</p>
+          <p class="cost" data-copy="reviewCost">The change would require saving progress for three sets of quests and checking what happens at midnight, at expiry, and when rewards are claimed. Players may earn more rewards overall; the effect on progression would need assessment.</p>
+          <div class="note-box">
+            <label class="note-title" for="quest-retention-note" data-copy="annotation">Annotation</label>
+            <div class="verdicts" data-id="daily-quest-retention">
+              <button type="button" class="v-btn" data-v="accept" aria-pressed="false" data-copy="accept">Accept</button>
+              <button type="button" class="v-btn" data-v="revise" aria-pressed="false" data-copy="revise">Revise</button>
+              <button type="button" class="v-btn" data-v="reject" aria-pressed="false" data-copy="reject">Reject</button>
+            </div>
+            <textarea id="quest-retention-note" placeholder="Add a note…"></textarea>
+          </div>
+          <p class="review-feedback" id="notes-storage-status" role="status" hidden></p>
+          <p class="review-feedback" id="notes-copy-status" role="status" hidden></p>
+          <textarea class="manual-json" id="notes-manual-copy" readonly aria-label="Annotation JSON" hidden></textarea>
+        </section>
         <p data-copy="reviewTwo">design-review keeps comments alongside the proposal they address, so the author can see where people disagree. Once a decision is reached, a <button type="button" class="nut" data-term="Decision record" aria-expanded="false">decision record</button> preserves the reasoning. Someone revising the proposal later can understand how the earlier choice was made.</p>
         <a class="source-link" href="skills/design-review/SKILL.md" data-copy="readReview">Read design-review ↗</a>
       </section>
@@ -212,7 +281,7 @@
       "nutshellOne": "A question about the waiting list is best answered where the term appears. nutshell keeps that explanation in place. Readers can find out how a place is offered without leaving the notice to search for a separate set of rules.",
       "nutshellTwo": "This [[Progressive disclosure|progressive disclosure]] does not mean withholding essential information. The deadline still belongs in the main text. Readers familiar with the process need not work through every detail again.",
       "reviewHeading": "[[Design review|From a proposal to a decision]]",
-      "reviewOne": "Understanding a rule does not settle whether it is a good one. Consider a proposal to add daily quests to a game. It might give players a reason to return, or turn playing into another obligation. The discussion needs to begin with that experience.",
+      "reviewOne": "Understanding a rule does not settle whether it is a good one. Consider this example of daily quests in a game. They may give players a reason to return, but they can also make playing feel like a daily obligation.",
       "reviewTwo": "design-review keeps comments alongside the proposal they address, so the author can see where people disagree. Once a decision is reached, a [[Decision record|decision record]] preserves the reasoning. Someone revising the proposal later can understand how the earlier choice was made.",
       "readNutshell": "Read nutshell ↗",
       "readReview": "Read design-review ↗",
@@ -222,7 +291,20 @@
       "creditPrefix": "Reading form inspired by ",
       "creditName": "Nicky Case’s Nutshell",
       "creditSuffix": ".",
-      "glossary": "Glossary"
+      "glossary": "Glossary",
+      "introAI": "AI has the same problem. It tends to bring loosely connected concepts together into a system of its own, then hand the user a planning document that is often hard to follow.",
+      "reviewExampleTitle": "Keep daily quests for three days",
+      "reviewProposed": "Proposed",
+      "reviewCurrent": "In this example, a set of quests appears at midnight each day and expires 24 hours later. A player who skips a day returns to find those quests gone.",
+      "reviewProblem": "Completing quests therefore depends on logging in every day. Even a player with time to catch up cannot recover the missed opportunity.",
+      "reviewChange": "The proposal keeps the daily schedule but makes each set available for 72 hours. The reward for each quest stays the same.",
+      "reviewImpact": "Players could miss a day or two and complete the quests that remain available when they return. Older quests would still expire, so there would be no unlimited backlog.",
+      "reviewCost": "The change would require saving progress for three sets of quests and checking what happens at midnight, at expiry, and when rewards are claimed. Players may earn more rewards overall; the effect on progression would need assessment.",
+      "annotation": "Annotation",
+      "accept": "Accept",
+      "revise": "Revise",
+      "reject": "Reject",
+      "copyNotes": "Copy annotations JSON"
     },
     "terms": {
       "In-context explanation": "When a notice mentions a waiting list, the explanation appears nearby. Readers can fill in the missing context and continue the original sentence. If the explanation introduces another unfamiliar concept, they can follow [[Recursive explanation|recursive explanations]] for further detail.",
@@ -230,9 +312,16 @@
       "Progressive disclosure": "This approach combines [[Information hierarchy|information hierarchy]] with [[On-demand presentation|on-demand presentation]]: first distinguish what readers need to know immediately, then reveal supplementary explanations when needed. A registration deadline stays in the main text; details of how a waiting list works can be explored separately.",
       "Information hierarchy": "In a registration notice, the Friday deadline belongs in the main text. An example of how to complete the form can sit in a supplementary explanation. What comes first depends on what readers need to do. [[On-demand presentation]] determines when the additional material appears.",
       "On-demand presentation": "Someone familiar with registration need not reread the definition of a waiting list, while a first-time applicant may need it. The explanation therefore appears when requested. [[In-context explanation]] keeps it connected to the sentence being read.",
-      "Design review": "Judging whether to add daily quests requires an account of their likely effect on players and the cost of implementing and maintaining them. Reviewers offer specific observations through [[Item-level annotations|item-level annotations]]. A [[Decision record|decision record]] preserves the outcome for later revisions.",
+      "Design review": "Judging whether to keep daily quests for three days requires an account of the effect on players and the cost of implementing and maintaining the change. Reviewers offer specific observations through [[Item-level annotations|item-level annotations]]. A [[Decision record|decision record]] preserves the outcome for later revisions.",
       "Item-level annotations": "A reviewer might support adding quests but disagree with requiring daily logins. Recording comments beside those separate decisions shows the author what has been accepted and what still needs discussion. These comments provide the material for [[Design review|design review]].",
       "Decision record": "Months later, someone taking over a proposal should be able to find the decision and its reasons. If the proposal changes, the record retains the earlier conclusion and explains the evidence behind the revision."
+    },
+    "ui": {
+      "notePlaceholder": "Add a note…",
+      "copied": "Annotations copied.",
+      "manualCopy": "Copy failed. Select and copy the JSON below.",
+      "manualLabel": "Annotation JSON",
+      "storageError": "These notes could not be saved in this browser. Copy them before closing the page."
     }
   },
   "zh": {
@@ -248,7 +337,7 @@
       "nutshellOne": "对「候补」的疑问，最好在读者遇到这个词时得到回答。nutshell 将补充说明留在原处。读者可以继续了解名额如何递补，而不用离开通知，另找一份规则。",
       "nutshellTwo": "这种[[渐进式披露]]并不意味着把重要信息藏起来。截止时间仍然需要写在正文中；已经熟悉流程的人，则不必每次都读完全部细节。",
       "reviewHeading": "[[设计审查|从一份方案到一个决定]]",
-      "reviewOne": "理解了规则，还可能对规则本身有不同看法。假设一项游戏提案建议增加每日任务。它或许能给玩家一个返回游戏的理由，也可能让游戏变成一项必须完成的日程。讨论需要从这种具体的影响出发。",
+      "reviewOne": "理解了规则，还可能对规则本身有不同看法。考虑下面这个每日任务的例子。任务或许能给玩家一个返回游戏的理由，也可能让游戏变成一项每天必须完成的日程。",
       "reviewTwo": "design-review 把意见留在对应的提案旁边，使作者能够分辨分歧发生在哪里。形成结论后，[[决策记录]]保留当时的理由。后来修改方案的人，也能知道此前的选择是怎样作出的。",
       "readNutshell": "查看 nutshell ↗",
       "readReview": "查看 design-review ↗",
@@ -258,7 +347,20 @@
       "creditPrefix": "阅读形式参考 ",
       "creditName": "Nicky Case 的 Nutshell",
       "creditSuffix": "。",
-      "glossary": "术语表"
+      "glossary": "术语表",
+      "introAI": "AI也有这样的问题。AI倾向于将松散的概念整合起来，然后形成自己的体系，交付给用户的往往是一个不太能看懂的计划文档。",
+      "reviewExampleTitle": "让每日任务保留三天",
+      "reviewProposed": "提议",
+      "reviewCurrent": "在这个例子里，每天零点生成一组任务，24 小时后失效。玩家隔一天回来，昨天的任务就已经消失。",
+      "reviewProblem": "这使任务的完成与每天登录绑在一起。即使玩家有时间补做，也无法拿回错过的机会。",
+      "reviewChange": "提议仍然每天生成一组任务，但每组保留 72 小时；每项任务的奖励不变。",
+      "reviewImpact": "玩家可以少登录一两天，再按自己的节奏完成仍在有效期内的任务。更早的任务仍会到期，不会一直堆积。",
+      "reviewCost": "代价是需要保存三组任务的进度，并核对跨日、到期和领奖行为。可领取的奖励可能增加，还要评估这对成长速度的影响。",
+      "annotation": "批注",
+      "accept": "采纳",
+      "revise": "要改",
+      "reject": "否决",
+      "copyNotes": "复制批注 JSON"
     },
     "terms": {
       "原位解释": "活动通知中出现「候补」时，说明就放在这个词旁边。读者补上需要的背景后，仍能接着读原来的句子。如果说明里还涉及其他不熟悉的概念，可以通过[[递归解释]]继续了解。",
@@ -266,9 +368,16 @@
       "渐进式披露": "这个做法把[[信息分层]]和[[按需呈现]]放在一起：先区分读者眼下必须知道的内容，再让补充解释在需要时出现。比如报名截止时间不能藏起来，候补名额如何递补则可以展开再读。",
       "信息分层": "写报名通知时，「周五截止」要留在正文里，填写表格的一个小例子可以放进补充解释。哪些内容先说，取决于读者要做什么。[[按需呈现]]再决定这些补充内容何时出现。",
       "按需呈现": "熟悉报名流程的人，不必再次阅读「候补」的定义；第一次报名的人却可能需要它。这段解释因此在有需要时才出现。采用[[原位解释]]，还能让补充内容与正在阅读的句子保持联系。",
-      "设计审查": "判断是否增加每日任务，需要先了解它可能怎样影响玩家，以及实现和维护它的代价。评审者通过[[逐项批注]]提出具体意见，讨论结果则写入[[决策记录]]，作为后续修改的依据。",
+      "设计审查": "判断每日任务是否应该保留三天，需要先了解它可能怎样影响玩家，以及实现和维护这项改动的代价。评审者通过[[逐项批注]]提出具体意见，讨论结果则写入[[决策记录]]，作为后续修改的依据。",
       "逐项批注": "评审者可能同意增加任务，却不赞成要求玩家每天登录。把意见分别留在这两项决定旁边，作者就能知道哪些内容已被接受，哪些仍需讨论。这些意见是[[设计审查]]的具体材料。",
       "决策记录": "几个月后，接手方案的人应当能够找到当时的决定和理由。如果后来改变了方案，记录保留旧结论，并说明促成这次变化的依据。"
+    },
+    "ui": {
+      "notePlaceholder": "写下意见……",
+      "copied": "批注已复制。",
+      "manualCopy": "自动复制失败，请选择下方的 JSON 手动复制。",
+      "manualLabel": "批注 JSON",
+      "storageError": "当前浏览器未能保存批注，请在关闭页面前复制。"
     }
   },
   "ja": {
@@ -284,7 +393,7 @@
       "nutshellOne": "キャンセル待ちについての疑問には、その言葉を読んだ場所で答えが見つかるのが自然です。nutshell は補足説明をその場に置きます。読み手は案内を離れて別の規約を探すことなく、空きが出たときの扱いを確かめられます。",
       "nutshellTwo": "この[[段階的開示]]は、重要な情報を隠すことではありません。申込期限は本文に残す必要があります。一方、手続きに慣れた人が、毎回すべての細部を読み直す必要はありません。",
       "reviewHeading": "[[デザインレビュー|提案から決定に至るまで]]",
-      "reviewOne": "ルールを理解しても、そのルールが適切かどうかについては意見が分かれます。ゲームにデイリークエストを追加する提案を考えてみましょう。再び遊ぶ理由になるかもしれませんが、遊ぶことを毎日の義務に変える可能性もあります。議論は、こうした具体的な体験から始める必要があります。",
+      "reviewOne": "ルールを理解しても、そのルールが適切かどうかについては意見が分かれます。ゲームのデイリークエストを例に考えてみましょう。再び遊ぶ理由になる一方で、遊ぶことを毎日の義務に変える可能性もあります。",
       "reviewTwo": "design-review は、意見を対象となる提案のそばに残し、どこで見解が分かれているのかを作者に伝えます。結論が出たら、[[決定記録]]にその理由を残します。後から提案を変更する人も、以前の選択に至った経緯を理解できます。",
       "readNutshell": "nutshell を読む ↗",
       "readReview": "design-review を読む ↗",
@@ -294,7 +403,20 @@
       "creditPrefix": "読書形式の参考：",
       "creditName": "Nicky Case の Nutshell",
       "creditSuffix": "。",
-      "glossary": "用語集"
+      "glossary": "用語集",
+      "introAI": "AI にも同じ問題があります。緩やかにつながった概念をまとめて独自の体系を作り、読み手には分かりにくい計画書を渡してしまうことがよくあります。",
+      "reviewExampleTitle": "デイリークエストの期限を3日間にする",
+      "reviewProposed": "提案",
+      "reviewCurrent": "この例では、毎日午前0時に一組のクエストが発生し、24時間後に期限が切れます。1日休んで戻ると、前日のクエストはもうありません。",
+      "reviewProblem": "クエストを達成するには、毎日ログインしなければなりません。後から遊ぶ時間があっても、逃した機会を取り戻せない仕組みです。",
+      "reviewChange": "毎日一組を追加する仕組みは維持し、各組の期限を72時間に延ばします。各クエストの報酬は変えません。",
+      "reviewImpact": "1、2日休んでも、戻ったときに期限内のクエストを自分のペースで進められます。古いクエストは期限切れになるため、際限なくたまることはありません。",
+      "reviewCost": "3組分の進捗を保存し、日付の切り替わりや期限切れ、報酬の受け取りを確認する必要があります。獲得できる報酬は増える可能性があり、成長の速さへの影響も検討が必要です。",
+      "annotation": "コメント",
+      "accept": "採用",
+      "revise": "修正",
+      "reject": "却下",
+      "copyNotes": "コメントを JSON でコピー"
     },
     "terms": {
       "文脈内の説明": "案内に「キャンセル待ち」と出てきたとき、その言葉のそばで説明を読めるようにします。必要な背景を補った後も、元の文章を続けて読めます。説明の中に別の分からない概念があれば、[[再帰的な説明]]を通じて理解を深められます。",
@@ -302,13 +424,21 @@
       "段階的開示": "この方法は[[情報の階層化]]と[[必要に応じた提示]]を組み合わせます。まず読み手が今すぐ知るべき内容を分け、補足説明は必要になった時点で示します。たとえば申込期限は本文に残し、キャンセル待ちの繰り上げ方法は詳しく読みたい人が確認できるようにします。",
       "情報の階層化": "申込案内では「金曜日が締め切り」という情報を本文に残し、記入例は補足説明に置くことができます。何を先に伝えるかは、読み手が何をしようとしているかによって決まります。補足をいつ見せるかは、[[必要に応じた提示]]で決めます。",
       "必要に応じた提示": "申込手続きに慣れた人にはキャンセル待ちの定義を読み直す必要がなくても、初めて申し込む人には必要かもしれません。そのため、説明は求められたときに示します。[[文脈内の説明]]を使えば、補足と読んでいる文章とのつながりも保てます。",
-      "デザインレビュー": "デイリークエストを追加するか判断するには、プレイヤーへの影響と、実装・維持にかかる負担を理解する必要があります。レビュー担当者は[[項目ごとのコメント]]で具体的な意見を示し、議論の結果を[[決定記録]]に残して後の変更の根拠にします。",
+      "デザインレビュー": "デイリークエストの期限を3日間にするか判断するには、プレイヤーへの影響と、変更の実装・維持にかかる負担を理解する必要があります。レビュー担当者は[[項目ごとのコメント]]で具体的な意見を示し、議論の結果を[[決定記録]]に残して後の変更の根拠にします。",
       "項目ごとのコメント": "クエストの追加には賛成でも、毎日のログインを必須にすることには反対かもしれません。それぞれの決定のそばに意見を残すと、何が受け入れられ、何を引き続き話し合うべきかが分かります。これらの意見が[[デザインレビュー]]の材料になります。",
       "決定記録": "数か月後に提案を引き継ぐ人が、当時の決定と理由を確認できるようにします。後から提案を変更した場合も、以前の結論を残し、変更の根拠を記録します。"
+    },
+    "ui": {
+      "notePlaceholder": "意見を記入…",
+      "copied": "コメントをコピーしました。",
+      "manualCopy": "コピーできませんでした。下の JSON を選択してコピーしてください。",
+      "manualLabel": "コメントの JSON",
+      "storageError": "このブラウザにはコメントを保存できませんでした。ページを閉じる前にコピーしてください。"
     }
   }
 };
     let NUTS;
+    let currentLanguage;
     const LANGUAGE_KEY = 'clarity-homepage-language';
     const ancestry = new WeakMap();
     const shimmerTimers = new WeakMap();
@@ -406,6 +536,7 @@
     }
 
     function applyLanguage(language) {
+      currentLanguage = language;
       const page = I18N[language];
       NUTS = page.terms;
       document.documentElement.lang = page.htmlLang;
@@ -422,6 +553,11 @@
       document.querySelectorAll('[data-language]').forEach(button => {
         button.setAttribute('aria-pressed', String(button.dataset.language === language));
       });
+      document.querySelectorAll('.note-box textarea').forEach(textarea => {
+        textarea.placeholder = page.ui.notePlaceholder;
+      });
+      document.getElementById('notes-manual-copy').setAttribute('aria-label', page.ui.manualLabel);
+      updateReviewFeedback();
     }
 
     function setLanguage(language) {
@@ -467,7 +603,111 @@
       glossaryDetails.open = glossaryWasOpen;
     });
 
+    // Review annotations use the template's stable item IDs and page-scoped storage.
+    const NOTES_KEY = location.pathname + '#clarity-review-notes';
+    let notesSaveFailed = false;
+    let copyFeedback = '';
+    let reviewNotes;
+    try {
+      reviewNotes = JSON.parse(localStorage.getItem(NOTES_KEY)) || {};
+    } catch {
+      reviewNotes = {};
+    }
+
+    function annotationPayload() {
+      const notes = Array.from(document.querySelectorAll('.note-box'), box => {
+        const group = box.querySelector('.verdicts');
+        const heading = box.closest('.review-item').querySelector('h3').cloneNode(true);
+        heading.querySelectorAll('.chip, .nut-body').forEach(element => element.remove());
+        const selected = group.querySelector('[aria-pressed="true"]');
+        return {
+          id: group.dataset.id,
+          title: heading.textContent.trim(),
+          verdict: selected ? selected.dataset.v : '',
+          note: box.querySelector('textarea').value.trim()
+        };
+      });
+      return JSON.stringify({ notes }, null, 2);
+    }
+
+    function updateReviewFeedback() {
+      const ui = I18N[currentLanguage].ui;
+      const storageStatus = document.getElementById('notes-storage-status');
+      storageStatus.hidden = !notesSaveFailed;
+      storageStatus.textContent = notesSaveFailed ? ui.storageError : '';
+      const copyStatus = document.getElementById('notes-copy-status');
+      copyStatus.hidden = !copyFeedback;
+      copyStatus.textContent = copyFeedback ? ui[copyFeedback] : '';
+      const manual = document.getElementById('notes-manual-copy');
+      if (!manual.hidden) manual.value = annotationPayload();
+    }
+
+    function saveNotes() {
+      try {
+        localStorage.setItem(NOTES_KEY, JSON.stringify(reviewNotes));
+        notesSaveFailed = false;
+      } catch {
+        notesSaveFailed = true;
+      }
+      if (copyFeedback === 'copied') copyFeedback = '';
+      updateReviewFeedback();
+    }
+
     applyLanguage(detectLanguage());
+    document.querySelectorAll('.note-box').forEach(box => {
+      const group = box.querySelector('.verdicts');
+      const id = group.dataset.id;
+      reviewNotes[id] ||= { note: '', verdict: '' };
+      const textarea = box.querySelector('textarea');
+      textarea.value = reviewNotes[id].note;
+      textarea.addEventListener('input', () => {
+        reviewNotes[id].note = textarea.value;
+        saveNotes();
+      });
+      group.querySelectorAll('.v-btn').forEach(button => {
+        button.setAttribute('aria-pressed', String(button.dataset.v === reviewNotes[id].verdict));
+        button.addEventListener('click', () => {
+          const verdict = button.getAttribute('aria-pressed') === 'true' ? '' : button.dataset.v;
+          group.querySelectorAll('.v-btn').forEach(option => {
+            option.setAttribute('aria-pressed', String(option.dataset.v === verdict));
+          });
+          reviewNotes[id].verdict = verdict;
+          saveNotes();
+        });
+      });
+    });
+
+    document.getElementById('copy-notes').addEventListener('click', async () => {
+      const payload = annotationPayload();
+      let copied = false;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(payload);
+          copied = true;
+        } catch {
+          // Local files may need the review template's selection-based copy path.
+        }
+      }
+      if (!copied) {
+        const selection = document.createElement('textarea');
+        selection.value = payload;
+        selection.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;';
+        document.body.append(selection);
+        selection.focus();
+        selection.select();
+        try { copied = document.execCommand('copy'); } catch { copied = false; }
+        selection.remove();
+        document.getElementById('copy-notes').focus({ preventScroll: true });
+      }
+      const manual = document.getElementById('notes-manual-copy');
+      manual.hidden = copied;
+      copyFeedback = copied ? 'copied' : 'manualCopy';
+      updateReviewFeedback();
+      if (!copied) {
+        manual.focus();
+        manual.select();
+      }
+    });
   </script>
 </body>
 </html>
